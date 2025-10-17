@@ -7,30 +7,29 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SelectCategory } from "./SelectCategory";
 import { QuantityInput } from "./quantityInput";
-
-
-export function ShoppingForm() {
-  const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState<string>("0");
-  const [unit, setUnit] = useState<string>("UN");
-  const [category, setCategory] = useState<string>("");
-
-  const addItemToList = (item: {
+interface ShoppingFormProps {
+  onAddItem: (item: {
     name: string;
     quantity: string;
     unit: string;
     category: string;
-  }) => {
-    console.log("Item Submetido:", item);
-  };
+  }) => void;
+}
+
+export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
+  const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState<string>("1"); 
+  const [unit, setUnit] = useState<string>("UN");
+  const [category, setCategory] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name.trim() || !category) {
-      alert("Por favor, preencha o Item e selecione a Categoria.");
+    if (!name.trim() || !category || parseFloat(quantity) <= 0) {
+      alert("Por favor, preencha o Item, a Categoria e garanta que a Quantidade seja maior que zero.");
       return;
     }
+    
     const newItem = {
       name: name.trim(),
       quantity,
@@ -38,9 +37,10 @@ export function ShoppingForm() {
       category,
     };
 
-    addItemToList(newItem);
+    onAddItem(newItem); 
+
     setName("");
-    setQuantity("0");
+    setQuantity("1");
     setUnit("UN");
     setCategory("");
   };
@@ -74,7 +74,12 @@ export function ShoppingForm() {
         <SelectCategory value={category} onValueChange={setCategory} />
       </div>
 
-      <Button disabled={!name.trim() || !category}>
+      <Button 
+        type="submit"
+        size="icon" 
+        className="h-10 w-10 bg-purple hover:bg-purple-dark shrink-0" 
+        disabled={!name.trim() || !category || parseFloat(quantity) <= 0}
+      >
         <Plus className="h-5 w-5" />
       </Button>
     </form>

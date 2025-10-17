@@ -1,6 +1,10 @@
-export interface ItemProps {
+export interface ShoppingItemProps {
   id: string;
   name: string;
-  quantity: number;
+  quantity: string;
+  unit: string;
   category: string;
+  isCompleted: boolean;
+  onToggle?: (id: string, completed: boolean) => void;
+  onDelete?: (id: string) => void;
 }
