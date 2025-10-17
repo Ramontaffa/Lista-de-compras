@@ -8,6 +8,7 @@ import Image from "next/image";
 import Cover from "@/assets/Cover.png";
 
 export default function ShoppingPage() {
+  // Get store state and actions
   const items = useShoppingStore((state) => state.items);
   const addItem = useShoppingStore((state) => state.addItem);
   const toggleItem = useShoppingStore((state) => state.toggleItem);
@@ -16,6 +17,7 @@ export default function ShoppingPage() {
 
   return (
     <div className="min-h-screen bg-gray-600 relative overflow-hidden">
+      {/* Background image container */}
       <div className="absolute left-0 top-0 w-full h-[300px] sm:h-[400px] z-0">
         <Image
           src={Cover}
@@ -23,10 +25,11 @@ export default function ShoppingPage() {
           priority
           className="object-cover object-center"
         />
-
+        {/* Gradient overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-gray-600 to-gray-600/50"></div>
       </div>
 
+      {/* Main content */}
       <div className="relative z-10 pt-20 sm:pt-24 md:pt-32 lg:pt-40 p-4 sm:p-8 md:p-10 lg:p-12">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold text-gray-100 mb-8 mt-[-3rem]">
@@ -35,8 +38,9 @@ export default function ShoppingPage() {
 
           <ShoppingForm onAddItem={addItem} />
 
-          <div className="my-8 h-px bg-gray-500" />
+          <div className="my-8 h-px bg-gray-500" /> {/* Divider */}
 
+          {/* Show loading while hydrating from localStorage */}
           {!hasHydrated ? (
             <div className="flex items-center justify-center py-12">
               <div className="text-gray-300 text-lg">Carregando lista...</div>
