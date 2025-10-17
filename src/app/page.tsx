@@ -1,103 +1,79 @@
+"use client";
+
+import * as React from "react";
+import { useState } from "react";
+import { ShoppingForm } from "@/components/ListForm/ShoppingForm";
+import { ShoppingList } from "@/components/ListItem/shoppingList";
+import { ShoppingItemProps } from "@/types/itemProps";
 import Image from "next/image";
+import Cover from "@/assets/Cover.png";
 
-export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+const initialList: ShoppingItemProps[] = [
+    { id: "1", name: "Maçã", quantity: "2 unidades", unit: "UN", category: "fruta", isCompleted: false },
+    { id: "2", name: "Pão francês", quantity: "4 unidades", unit: "UN", category: "padaria", isCompleted: false },
+    { id: "3", name: "Brócolis", quantity: "1 unidade", unit: "UN", category: "legume", isCompleted: false },
+];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+export default function ShoppingPage() {
+    const [items, setItems] = useState<ShoppingItemProps[]>(initialList);
+
+    const handleAddItem = (
+        newItemData: Omit<ShoppingItemProps, "id" | "isCompleted">
+    ) => {
+        const newItem: ShoppingItemProps = {
+            ...newItemData,
+            id: crypto.randomUUID(),
+            isCompleted: false,
+            quantity: `${newItemData.quantity} ${newItemData.unit.toLowerCase()}${newItemData.quantity !== '1' ? 's' : ''}`, 
+        };
+        
+        setItems((prevItems) => [newItem, ...prevItems]);
+    };
+
+    const handleToggle = (id: string, completed: boolean) => {
+        setItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === id ? { ...item, isCompleted: completed } : item
+            )
+        );
+    };
+
+    const handleDelete = (id: string) => {
+        setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-600 relative overflow-hidden">
+            
+            <div className="absolute left-0 top-0 w-full h-[300px] sm:h-[400px] z-0">
+                <Image
+                    src={Cover}
+                    alt="Background Image"
+                    priority
+                    className="object-cover object-center" 
+                />
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-600 to-gray-600/50"></div>
+            </div>
+
+            <div className="relative z-10 pt-20 sm:pt-24 md:pt-32 lg:pt-40 p-4 sm:p-8 md:p-10 lg:p-12">
+                <div className="max-w-4xl mx-auto">
+                    
+                    <h1 className="text-4xl font-bold text-gray-100 mb-8 mt-[-3rem]">
+                        Lista de Compras
+                    </h1>
+
+                    <ShoppingForm onAddItem={handleAddItem} />
+
+                    <div className="my-8 h-px bg-gray-500" />
+
+                    <ShoppingList
+                        items={items}
+                        onToggle={handleToggle}
+                        onDelete={handleDelete}
+                    />
+                </div>
+            </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    );
 }

@@ -1,3 +1,3 @@
-import Cover from "./cover.png";
+import Cover from "./Cover.png";
 
 export { Cover };
