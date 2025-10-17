@@ -1,5 +1,5 @@
 import { ItemProps } from "@/types/itemProps";
-import { Checkbox } from "./ui/checkbox";
+import { Checkbox } from "../ui/checkbox";
 import Tag from "./tag";
 import { ItemActions } from "./deleteItem";
 

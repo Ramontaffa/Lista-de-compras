@@ -21,27 +21,30 @@ const ItemContent: React.FC<ItemContentProps> = ({ icon: Icon, label }) => (
     <span>{label}</span>
   </div>
 );
+interface SelectCategoryProps {
+    value: string;
+    onValueChange: (value: string) => void;
+}
 
-export function SelectCategory() {
-  const [selectedCategory, setSelectedCategory] = React.useState<string>("");
-  const currentCategoryData = categories.find(c => c.value === selectedCategory);
+export function SelectCategory({ value, onValueChange }: SelectCategoryProps) {
+  const currentCategoryData = categories.find(c => c.value === value);
 
   return (
-    <div className="">
-      <label className="text-gray-200 text-sm">Categoria</label>
+    <div className="flex flex-col">
+      <label className="text-gray-200 text-sm mb-1">Categoria</label> 
       
       <Select 
-        value={selectedCategory} 
-        onValueChange={setSelectedCategory}
+        value={value}
+        onValueChange={onValueChange}
       >
         
         <SelectTrigger 
-          className="w-full rounded-md bg-gray-400 border-none text-gray-100 data-[state=open]:border-purple data-[state=open]:ring-1 data-[state=open]:ring-purple"
+          className="w-full rounded-md bg-gray-500 border-gray-400 h-10 text-gray-200 data-[state=open]:border-purple data-[state=open]:ring-1 data-[state=open]:ring-purple"
         >
           {currentCategoryData ? (
             <ItemContent icon={currentCategoryData.icon} label={currentCategoryData.label} />
           ) : (
-            <SelectValue placeholder="Selecione a categoria" />
+            <SelectValue placeholder="Selecione" /> 
           )}
         </SelectTrigger>
         
