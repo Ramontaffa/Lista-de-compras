@@ -29,15 +29,21 @@ export function ShoppingList({ items, onToggle, onEdit, onDelete }: ShoppingList
   ) : (
     <div className="space-y-4">
       <div className="space-y-3">
-        {activeItems.map((item) => (
-          <ShoppingItem
-            key={item.id}
-            item={item}
-            onToggle={onToggle}
-            onEdit={onEdit}
-            onDelete={onDelete}
-          />
-        ))}
+        {activeItems.length === 0 ? (
+          <p className="text-gray-300 text-center py-6">
+            Todos os itens foram comprados!
+          </p>
+        ) : (
+          activeItems.map((item) => (
+            <ShoppingItem
+              key={item.id}
+              item={item}
+              onToggle={onToggle}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
+          ))
+        )}
       </div>
 
       {completedItems.length > 0 && (
