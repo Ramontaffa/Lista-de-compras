@@ -21,26 +21,30 @@ const ItemContent: React.FC<ItemContentProps> = ({ icon: Icon, label }) => (
     <span>{label}</span>
   </div>
 );
+
 interface SelectCategoryProps {
     value: string;
     onValueChange: (value: string) => void;
 }
 
 export function SelectCategory({ value, onValueChange }: SelectCategoryProps) {
+  // Find current selected category data
   const currentCategoryData = categories.find(c => c.value === value);
 
   return (
     <div className="flex flex-col">
+      {/* Label for the select */}
       <label className="text-gray-200 text-sm mb-1">Categoria</label> 
       
       <Select 
         value={value}
         onValueChange={onValueChange}
       >
-        
+        {/* Select trigger with custom styling */}
         <SelectTrigger 
           className="w-full rounded-md bg-gray-500 border-gray-400 h-10 text-gray-200 data-[state=open]:border-purple data-[state=open]:ring-1 data-[state=open]:ring-purple"
         >
+          {/* Show selected category or placeholder */}
           {currentCategoryData ? (
             <ItemContent icon={currentCategoryData.icon} label={currentCategoryData.label} />
           ) : (
@@ -48,6 +52,7 @@ export function SelectCategory({ value, onValueChange }: SelectCategoryProps) {
           )}
         </SelectTrigger>
         
+        {/* Dropdown content with category options */}
         <SelectContent 
           className="bg-gray-600 border-none shadow-lg mt-1 p-0 rounded-lg text-gray-100"
         >

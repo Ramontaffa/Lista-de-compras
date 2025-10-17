@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SelectCategory } from "./SelectCategory";
 import { QuantityInput } from "./quantityInput";
+
 interface ShoppingFormProps {
   onAddItem: (item: {
     name: string;
@@ -22,14 +23,17 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
   const [unit, setUnit] = useState<string>("UN");
   const [category, setCategory] = useState<string>("");
 
+  // Handles form submission Validates inputs and calls onAddItem callback
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validate required fields
     if (!name.trim() || !category || parseFloat(quantity) <= 0) {
       alert("Por favor, preencha o Item, a Categoria e garanta que a Quantidade seja maior que zero.");
       return;
     }
     
+    // Create new item object
     const newItem = {
       name: name.trim(),
       quantity,
@@ -39,6 +43,7 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
 
     onAddItem(newItem); 
 
+    // Reset form fields
     setName("");
     setQuantity("1");
     setUnit("UN");
@@ -46,7 +51,8 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-end gap-3 sm:gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-wrap justify-center items-end gap-3 sm:gap-4">
+      {/* Item name input */}
       <div className="flex flex-col flex-grow min-w-[120px]">
         <label htmlFor="item-name" className="text-gray-200 text-sm mb-1">
           Item
@@ -60,28 +66,33 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
         />
       </div>
 
-      <div className="flex flex-col">
-        <label className="text-gray-200 text-sm mb-1">Quantidade</label>
-        <QuantityInput
-          quantityValue={quantity}
-          onQuantityChange={(e) => setQuantity(e.target.value)}
-          unitValue={unit}
-          onUnitChange={setUnit}
-        />
-      </div>
+      <div className="flex gap-4 items-baseline-last min-w-[120px] overflow-x-auto">
+        {/* Quantity and unit input */}
+        <div className="flex flex-col">
+          <label className="text-gray-200 text-sm mb-1">Quantidade</label>
+          <QuantityInput
+            quantityValue={quantity}
+            onQuantityChange={(e) => setQuantity(e.target.value)}
+            unitValue={unit}
+            onUnitChange={setUnit}
+          />
+        </div>
 
-      <div className="flex flex-col min-w-[120px]">
-        <SelectCategory value={category} onValueChange={setCategory} />
-      </div>
+        {/* Category selector */}
+        <div className="flex flex-col min-w-[120px]">
+          <SelectCategory value={category} onValueChange={setCategory} />
+        </div>
 
-      <Button 
-        type="submit"
-        size="icon" 
-        className="h-10 w-10 bg-purple hover:bg-purple-dark shrink-0" 
-        disabled={!name.trim() || !category || parseFloat(quantity) <= 0}
-      >
-        <Plus className="h-5 w-5" />
-      </Button>
+        {/* Submit button */}
+        <Button 
+          type="submit"
+          size="icon" 
+          className="h-10 w-10 bg-purple hover:bg-purple-dark shrink-0" 
+          disabled={!name.trim() || !category || parseFloat(quantity) <= 0}
+        >
+          <Plus className="h-5 w-5" />
+        </Button>
+      </div>
     </form>
   );
 }
