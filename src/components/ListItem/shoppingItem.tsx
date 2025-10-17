@@ -27,7 +27,7 @@ export default function ShoppingItem({ item, onToggle, onEdit, onDelete }: Shopp
 
         {/* Item name and quantity */}
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className={`truncate font-medium transition-all ${item.isCompleted ? 'line-through text-gray-300' : 'text-white'}`}>
+          <span className={`truncate font-medium transition-all ${item.isCompleted ? 'line-through text-gray-200' : 'text-white'}`}>
             {item.name}
           </span>
           <span className="text-sm text-gray-200">
