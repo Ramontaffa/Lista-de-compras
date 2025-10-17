@@ -1,0 +1,87 @@
+"use client";
+
+import * as React from "react";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { SelectCategory } from "./SelectCategory";
+import { QuantityInput } from "./quantityInput";
+interface ShoppingFormProps {
+  onAddItem: (item: {
+    name: string;
+    quantity: string;
+    unit: string;
+    category: string;
+  }) => void;
+}
+
+export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
+  const [name, setName] = useState("");
+  const [quantity, setQuantity] = useState<string>("1"); 
+  const [unit, setUnit] = useState<string>("UN");
+  const [category, setCategory] = useState<string>("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!name.trim() || !category || parseFloat(quantity) <= 0) {
+      alert("Por favor, preencha o Item, a Categoria e garanta que a Quantidade seja maior que zero.");
+      return;
+    }
+    
+    const newItem = {
+      name: name.trim(),
+      quantity,
+      unit,
+      category,
+    };
+
+    onAddItem(newItem); 
+
+    setName("");
+    setQuantity("1");
+    setUnit("UN");
+    setCategory("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex items-end gap-3 sm:gap-4">
+      <div className="flex flex-col flex-grow min-w-[120px]">
+        <label htmlFor="item-name" className="text-gray-200 text-sm mb-1">
+          Item
+        </label>
+        <Input
+          id="item-name"
+          placeholder=""
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="bg-gray-500 border-gray-400 h-10"
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label className="text-gray-200 text-sm mb-1">Quantidade</label>
+        <QuantityInput
+          quantityValue={quantity}
+          onQuantityChange={(e) => setQuantity(e.target.value)}
+          unitValue={unit}
+          onUnitChange={setUnit}
+        />
+      </div>
+
+      <div className="flex flex-col min-w-[120px]">
+        <SelectCategory value={category} onValueChange={setCategory} />
+      </div>
+
+      <Button 
+        type="submit"
+        size="icon" 
+        className="h-10 w-10 bg-purple hover:bg-purple-dark shrink-0" 
+        disabled={!name.trim() || !category || parseFloat(quantity) <= 0}
+      >
+        <Plus className="h-5 w-5" />
+      </Button>
+    </form>
+  );
+}
