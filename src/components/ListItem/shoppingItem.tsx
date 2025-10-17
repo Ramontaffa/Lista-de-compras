@@ -3,14 +3,15 @@ import { Checkbox } from "../ui/checkbox";
 import Tag from "./tag";
 import { ItemActions } from "./deleteItem";
 
-// Defines the properties for the ShoppingItem component with onFunctions to toggle completion and delete the item
+// Defines the properties for the ShoppingItem component with onFunctions to toggle completion, edit, and delete the item
 interface ShoppingItemComponentProps {
   item: ShoppingItemProps;
   onToggle: (id: string, completed: boolean) => void;
+  onEdit: (id: string, updatedItem: Omit<ShoppingItemProps, "id" | "isCompleted">) => void;
   onDelete: (id: string) => void;
 }
 
-export default function ShoppingItem({ item, onToggle, onDelete }: ShoppingItemComponentProps) {
+export default function ShoppingItem({ item, onToggle, onEdit, onDelete }: ShoppingItemComponentProps) {
   const handleCheckboxChange = (checked: boolean) => {
     onToggle(item.id, checked);
   };
@@ -38,8 +39,8 @@ export default function ShoppingItem({ item, onToggle, onDelete }: ShoppingItemC
         <div className="shrink-0 flex items-center gap-1">
           <Tag category={item.category} />
           <ItemActions 
-            itemId={item.id} 
-            itemName={item.name} 
+            item={item}
+            onEdit={onEdit}
             onDelete={onDelete}
           />
         </div>

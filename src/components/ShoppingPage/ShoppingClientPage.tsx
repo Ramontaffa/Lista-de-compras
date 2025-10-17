@@ -9,6 +9,7 @@ export default function ShoppingClientPage() {
   // Get store state and actions
   const items = useShoppingStore((state) => state.items);
   const addItem = useShoppingStore((state) => state.addItem);
+  const editItem = useShoppingStore((state) => state.editItem);
   const toggleItem = useShoppingStore((state) => state.toggleItem);
   const deleteItem = useShoppingStore((state) => state.deleteItem);
   const hasHydrated = useShoppingStore((state) => state._hasHydrated);
@@ -30,6 +31,7 @@ export default function ShoppingClientPage() {
           <ShoppingList
             items={items}
             onToggle={toggleItem}
+            onEdit={editItem}
             onDelete={deleteItem}
           />
         )}

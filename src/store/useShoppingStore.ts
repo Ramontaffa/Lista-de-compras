@@ -7,6 +7,7 @@ interface ShoppingStore {
   _hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
   addItem: (item: Omit<ShoppingItemProps, "id" | "isCompleted">) => void;
+  editItem: (id: string, item: Omit<ShoppingItemProps, "id" | "isCompleted">) => void;
   toggleItem: (id: string, completed: boolean) => void;
   deleteItem: (id: string) => void;
 }
@@ -57,6 +58,16 @@ export const useShoppingStore = create<ShoppingStore>()(
 
         set((state) => ({
           items: [newItem, ...state.items],
+        }));
+      },
+
+      editItem: (id, itemData) => {
+        set((state) => ({
+          items: state.items.map((item) =>
+            item.id === id 
+              ? { ...item, ...itemData } 
+              : item
+          ),
         }));
       },
 

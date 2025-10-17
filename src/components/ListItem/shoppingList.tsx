@@ -8,10 +8,11 @@ import { ShoppingItemProps } from "@/types/itemProps";
 interface ShoppingListProps {
   items: ShoppingItemProps[];
   onToggle: (id: string, completed: boolean) => void;
+  onEdit: (id: string, updatedItem: Omit<ShoppingItemProps, "id" | "isCompleted">) => void;
   onDelete: (id: string) => void;
 }
 
-export function ShoppingList({ items, onToggle, onDelete }: ShoppingListProps) {
+export function ShoppingList({ items, onToggle, onEdit, onDelete }: ShoppingListProps) {
   // optimize filtering with useMemo
   const { activeItems, completedItems } = useMemo(
     () => ({
@@ -33,6 +34,7 @@ export function ShoppingList({ items, onToggle, onDelete }: ShoppingListProps) {
             key={item.id}
             item={item}
             onToggle={onToggle}
+            onEdit={onEdit}
             onDelete={onDelete}
           />
         ))}
@@ -49,6 +51,7 @@ export function ShoppingList({ items, onToggle, onDelete }: ShoppingListProps) {
                 key={item.id}
                 item={item}
                 onToggle={onToggle}
+                onEdit={onEdit}
                 onDelete={onDelete}
               />
             ))}
