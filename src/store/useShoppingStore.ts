@@ -17,7 +17,7 @@ const initialItems: ShoppingItemProps[] = [
     name: "Maçã",
     quantity: "2",
     unit: "UN",
-    category: "fruta",
+    category: "Fruta",
     isCompleted: false,
   },
   {
@@ -25,7 +25,7 @@ const initialItems: ShoppingItemProps[] = [
     name: "Pão francês",
     quantity: "4",
     unit: "UN",
-    category: "padaria",
+    category: "Padaria",
     isCompleted: false,
   },
   {
@@ -33,7 +33,7 @@ const initialItems: ShoppingItemProps[] = [
     name: "Brócolis",
     quantity: "1",
     unit: "UN",
-    category: "legume",
+    category: "Legume",
     isCompleted: false,
   },
 ];
