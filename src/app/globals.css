@@ -5,11 +5,40 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+@theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Cores Principais do Produto */
+  --color-purple-light: #A881E6;
+  --color-purple: #7450AC;
+  --color-purple-dark: #523480;
+
+  /* Cores Base (Gray Scale) */
+  --color-gray-100: #FBF9FE;
+  --color-gray-200: #AFABB6;
+  --color-gray-300: #252529;
+  --color-gray-400: #17171A;
+  --color-gray-500: #111112;
+  --color-gray-600: #0C0C0D;
+
+  /* Cores de Feedback (Sucesso) */
+  --color-success-light: #63B367;
+  --color-success: #3D8C43;
+
+  /* Cores de Apoio */
+  --color-pink: #DB5BBF;
+  --color-pink-dark: #251622;
+  --color-orange: #E07B67;
+  --color-orange-dark: #261A17;
+  --color-yellow: #BB9F3A;
+  --color-yellow-dark: #211E12;
+  --color-green: #8CAD51;
+  --color-green-dark: #1C2015;
+  --color-blue: #7B94CB;
+  --color-blue-dark: #1A1D23;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +52,29 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.75rem;
+}
+
+@layer base {
+  h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 100%;
+  }
+  h2 {
+    font-size: 0.85rem;
+    font-weight: bold;
+    line-height: 130%;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  button {
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 130%;
+    cursor: pointer;
+  }
 }
