@@ -1,12 +1,12 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import { ShoppingItemProps } from '@/types/itemProps';
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { ShoppingItemProps } from "@/types/itemProps";
 
 interface ShoppingStore {
   items: ShoppingItemProps[];
   _hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
-  addItem: (item: Omit<ShoppingItemProps, 'id' | 'isCompleted'>) => void;
+  addItem: (item: Omit<ShoppingItemProps, "id" | "isCompleted">) => void;
   toggleItem: (id: string, completed: boolean) => void;
   deleteItem: (id: string) => void;
 }
@@ -43,7 +43,7 @@ export const useShoppingStore = create<ShoppingStore>()(
     (set) => ({
       items: initialItems,
       _hasHydrated: false,
-      
+
       setHasHydrated: (state) => {
         set({ _hasHydrated: state });
       },
@@ -54,7 +54,7 @@ export const useShoppingStore = create<ShoppingStore>()(
           id: crypto.randomUUID(),
           isCompleted: false,
         };
-        
+
         set((state) => ({
           items: [newItem, ...state.items],
         }));
@@ -75,7 +75,7 @@ export const useShoppingStore = create<ShoppingStore>()(
       },
     }),
     {
-      name: 'shopping-list-storage',
+      name: "shopping-list-storage",
       storage: createJSONStorage(() => localStorage),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);
