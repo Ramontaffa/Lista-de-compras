@@ -1,46 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
 import { ShoppingForm } from "@/components/ListForm/ShoppingForm";
 import { ShoppingList } from "@/components/ListItem/shoppingList";
-import { ShoppingItemProps } from "@/types/itemProps";
+import { useShoppingStore } from "@/store/useShoppingStore";
 import Image from "next/image";
 import Cover from "@/assets/Cover.png";
 
-const initialList: ShoppingItemProps[] = [
-    { id: "1", name: "Maçã", quantity: "2 unidades", unit: "UN", category: "fruta", isCompleted: false },
-    { id: "2", name: "Pão francês", quantity: "4 unidades", unit: "UN", category: "padaria", isCompleted: false },
-    { id: "3", name: "Brócolis", quantity: "1 unidade", unit: "UN", category: "legume", isCompleted: false },
-];
-
 export default function ShoppingPage() {
-    const [items, setItems] = useState<ShoppingItemProps[]>(initialList);
-
-    const handleAddItem = (
-        newItemData: Omit<ShoppingItemProps, "id" | "isCompleted">
-    ) => {
-        const newItem: ShoppingItemProps = {
-            ...newItemData,
-            id: crypto.randomUUID(),
-            isCompleted: false,
-            quantity: `${newItemData.quantity} ${newItemData.unit.toLowerCase()}${newItemData.quantity !== '1' ? 's' : ''}`, 
-        };
-        
-        setItems((prevItems) => [newItem, ...prevItems]);
-    };
-
-    const handleToggle = (id: string, completed: boolean) => {
-        setItems((prevItems) =>
-            prevItems.map((item) =>
-                item.id === id ? { ...item, isCompleted: completed } : item
-            )
-        );
-    };
-
-    const handleDelete = (id: string) => {
-        setItems((prevItems) => prevItems.filter((item) => item.id !== id));
-    };
+    const { items, addItem, toggleItem, deleteItem } = useShoppingStore();
 
     return (
         <div className="min-h-screen bg-gray-600 relative overflow-hidden">
@@ -63,14 +31,14 @@ export default function ShoppingPage() {
                         Lista de Compras
                     </h1>
 
-                    <ShoppingForm onAddItem={handleAddItem} />
+                    <ShoppingForm onAddItem={addItem} />
 
                     <div className="my-8 h-px bg-gray-500" />
 
                     <ShoppingList
                         items={items}
-                        onToggle={handleToggle}
-                        onDelete={handleDelete}
+                        onToggle={toggleItem}
+                        onDelete={deleteItem}
                     />
                 </div>
             </div>
