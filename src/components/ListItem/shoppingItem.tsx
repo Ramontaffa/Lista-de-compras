@@ -16,23 +16,23 @@ export default function ShoppingItem({ item, onToggle, onDelete }: ShoppingItemC
 
   return (
     <div className="w-full">
-      <div className={`flex items-center gap-3 rounded-lg bg-gray-400 p-4 text-white transition-opacity ${item.isCompleted ? 'opacity-60' : 'opacity-100'}`}>
+      <div className={`flex items-center gap-3 rounded-lg bg-gray-400 p-4 text-white transition-all duration-200 ${item.isCompleted ? 'opacity-60' : 'opacity-100'}`}>
         <Checkbox 
           className="shrink-0" 
           checked={item.isCompleted}
           onCheckedChange={handleCheckboxChange}
         />
 
-        <div className="flex min-w-0 flex-1 flex-col">
-          <span className={`truncate font-medium ${item.isCompleted ? 'line-through' : ''}`}>
+        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+          <span className={`truncate font-medium transition-all ${item.isCompleted ? 'line-through text-gray-300' : 'text-white'}`}>
             {item.name}
           </span>
           <span className="text-sm text-gray-200">
-            {item.quantity}
+            {`${item.quantity} ${item.quantity === "1" ? 'Unidade' : 'Unidades'}`}
           </span>
         </div>
 
-        <div className="shrink-0 flex-row items-center gap-1 flex">
+        <div className="shrink-0 flex items-center gap-1">
           <Tag category={item.category} />
           <ItemActions 
             itemId={item.id} 
