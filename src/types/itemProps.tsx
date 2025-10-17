@@ -5,6 +5,4 @@ export interface ShoppingItemProps {
   unit: string;
   category: string;
   isCompleted: boolean;
-  onToggle?: (id: string, completed: boolean) => void;
-  onDelete?: (id: string) => void;
 }
