@@ -1,3 +1,4 @@
+// returns appropriate tailwind CSS classes for tag colors based on category 
 export default function getTagColor(category: string): string {
   switch (category) {
     case "Fruta":
