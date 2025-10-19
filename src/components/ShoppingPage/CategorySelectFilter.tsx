@@ -1,5 +1,6 @@
 import * as React from "react";
 import { categories } from "@/lib/category";
+import { Loader2 } from "lucide-react";
 
 interface CategorySelectFilterProps {
   id: string;
@@ -7,37 +8,43 @@ interface CategorySelectFilterProps {
   onChange: (value: string) => void;
 }
 
-export const CategorySelectFilter: React.FC<CategorySelectFilterProps> = ({ id, value, onChange }) => {
+export const CategorySelectFilter: React.FC<CategorySelectFilterProps> = ({
+  id,
+  value,
+  onChange,
+}) => {
   const [open, setOpen] = React.useState(false);
   const [search, setSearch] = React.useState("");
 
-  // Filtra categorias pelo texto digitado
-  const filteredCategories = categories.filter(cat =>
+  // filter categories based on search input
+  const filteredCategories = categories.filter((cat) =>
     cat.label.toLowerCase().includes(search.toLowerCase())
   );
 
-  // Encerra dropdown ao selecionar
+  // Close dropdown on selection
   const handleSelect = (val: string) => {
     onChange(val);
     setOpen(false);
     setSearch("");
   };
 
-  // Label da categoria selecionada
-  const selected = categories.find(cat => cat.value === value);
+  // selected category data
+  const selected = categories.find((cat) => cat.value === value);
 
   return (
     <div className="relative w-full min-w-[160px]">
       <button
         type="button"
-        className={`w-full flex items-center justify-between p-2 h-9 rounded-md border-[2px] bg-gray-500 text-gray-200 border-gray-300  focus:outline-none focus:ring-2 focus:ring-purple transition-colors ${open ? "ring-2 ring-purple" : ""}`}
-        onClick={() => setOpen(o => !o)}
+        className={`w-full flex items-center justify-between p-2 h-9 rounded-md border-[2px] bg-gray-500 text-gray-200 border-gray-300  focus:outline-none focus:ring-2 focus:ring-purple transition-colors ${
+          open ? "ring-2 ring-purple" : ""
+        }`}
+        onClick={() => setOpen((o) => !o)}
       >
         <span className="flex items-center gap-2 text-gray-200">
           {selected ? <selected.icon className="w-4 h-4" /> : null}
           {selected ? selected.label : "Filtrar categoria"}
         </span>
-        <svg className={`w-4 h-4 ml-2 transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        <Loader2 className="w-4 h-4 ml-2 animate-spin text-purple" />
       </button>
       {open && (
         <div className="absolute z-20 mt-2 w-full bg-gray-600 border border-gray-400 rounded-md shadow-lg p-2">
@@ -45,26 +52,32 @@ export const CategorySelectFilter: React.FC<CategorySelectFilterProps> = ({ id, 
             type="text"
             placeholder="Buscar categoria..."
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full mb-2 px-2 py-1 rounded bg-gray-500 text-gray-100 border border-gray-400 focus:outline-none"
             autoFocus
           />
           <button
             type="button"
             onClick={() => handleSelect("")}
-            className={`w-full flex items-center gap-2 px-3 py-2 rounded hover:bg-purple-light hover:text-white text-sm ${value === "" ? "bg-purple text-white" : "text-gray-200"}`}
+            className={`w-full flex items-center gap-2 px-3 py-2 rounded hover:bg-purple-light hover:text-white text-sm ${
+              value === "" ? "bg-purple text-white" : "text-gray-200"
+            }`}
           >
             Todas
           </button>
           {filteredCategories.length === 0 && (
-            <div className="text-gray-400 text-sm px-3 py-2">Nenhuma categoria</div>
+            <div className="text-gray-400 text-sm px-3 py-2">
+              Nenhuma categoria
+            </div>
           )}
-          {filteredCategories.map(cat => (
+          {filteredCategories.map((cat) => (
             <button
               key={cat.value}
               type="button"
               onClick={() => handleSelect(cat.value)}
-              className={`w-full flex items-center gap-2 px-3 py-2 rounded hover:bg-purple-light hover:text-white text-sm ${value === cat.value ? "bg-purple text-white" : "text-gray-200"}`}
+              className={`w-full flex items-center gap-2 px-3 py-2 rounded hover:bg-purple-light hover:text-white text-sm ${
+                value === cat.value ? "bg-purple text-white" : "text-gray-200"
+              }`}
             >
               <cat.icon className="w-4 h-4" />
               {cat.label}

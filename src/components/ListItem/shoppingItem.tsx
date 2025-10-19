@@ -8,8 +8,8 @@ import unitType from "@/utils/unit/unitType";
 interface ShoppingItemComponentProps {
   item: ShoppingItemProps;
   onToggle: (id: number, completed: boolean) => void;
-  onEdit: (id: number, updatedItem: Omit<ShoppingItemProps, "id" | "checked">) => void;
-  onDelete: (id: number) => void;
+  onEdit: (id: number, updatedItem: Omit<ShoppingItemProps, "id" | "checked">) => Promise<void>;
+  onDelete: (id: number) => Promise<void>;
 }
 
 export default function ShoppingItem({ item, onToggle, onEdit, onDelete }: ShoppingItemComponentProps) {

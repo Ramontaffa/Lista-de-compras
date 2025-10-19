@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MoreVertical, Trash2, Pencil } from "lucide-react";
+import { MoreVertical, Trash2, Pencil, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,17 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+// Removido AlertDialog imports
 import {
   Dialog,
   DialogContent,
@@ -39,16 +29,19 @@ interface ItemActionsProps {
   onEdit: (
     id: number,
     updatedItem: Omit<ShoppingItemProps, "id" | "checked">
-  ) => void;
-  onDelete: (id: number) => void;
+  ) => Promise<void>;
+  onDelete: (id: number) => Promise<void>;
 }
 
 export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
   const [editOpen, setEditOpen] = useState(false);
+  const [deleteAlertOpen, setDeleteAlertOpen] = useState(false);
   const [name, setName] = useState(item.name);
   const [quantity, setQuantity] = useState(item.quantity);
   const [unit, setUnit] = useState(item.unit.toUpperCase());
   const [category, setCategory] = useState(item.category);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   // Reset form when edit dialog opens
   const handleEditOpen = () => {
@@ -60,20 +53,39 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
   };
 
   // Handle save edit
-  const handleSaveEdit = () => {
+  const handleSaveEdit = async () => {
     if (!name.trim() || !category || quantity <= 0) {
       alert("Por favor, preencha todos os campos corretamente.");
       return;
     }
+    setIsEditing(true);
+    try {
+      await Promise.resolve(
+        onEdit(item.id, {
+          name: name.trim(),
+          quantity: Number(quantity),
+          unit: unit.toLowerCase(),
+          category,
+        })
+      );
+      setEditOpen(false);
+    } catch (error) {
+      console.error("Error saving edit:", error);
+    } finally {
+      setIsEditing(false);
+    }
+  };
 
-    onEdit(item.id, {
-      name: name.trim(),
-      quantity: Number(quantity),
-      unit: unit.toLowerCase(),
-      category,
-    });
-
-    setEditOpen(false);
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      await onDelete(item.id);
+      setDeleteAlertOpen(false);
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -91,50 +103,56 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
           {/* Edit option */}
           <DropdownMenuItem
             onSelect={handleEditOpen}
+            disabled={isEditing}
             className="cursor-pointer flex items-center gap-2 text-white hover:!text-white hover:bg-gray-400 focus:bg-gray-400 focus:!text-white"
           >
             <Pencil className="h-4 w-4 text-purple-light" />
             Editar
           </DropdownMenuItem>
 
-          {/* Delete option with alert dialog */}
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <DropdownMenuItem
-                onSelect={(e) => e.preventDefault()}
-                className="cursor-pointer flex items-center gap-2 text-white hover:!text-white hover:bg-gray-400 focus:bg-gray-400 focus:!text-white"
-              >
-                <Trash2 className="h-4 w-4 text-purple-light" />
-                Excluir
-              </DropdownMenuItem>
-            </AlertDialogTrigger>
-
-            {/* Alert dialog content */}
-            <AlertDialogContent className="bg-gray-600 border-gray-400 text-gray-100">
-              <AlertDialogHeader>
-                <AlertDialogTitle className="text-xl">
-                  Tem certeza que deseja excluir?
-                </AlertDialogTitle>
-
-                <AlertDialogDescription>
-                  Esta ação irá remover permanentemente o item *{item.name}* da
-                  sua lista de compras.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-
-              <AlertDialogFooter>
-                <AlertDialogCancel className="bg-gray-500 hover:bg-gray-400 border-none text-gray-100">
+          {/* Delete option with dialog */}
+          <Dialog open={deleteAlertOpen} onOpenChange={setDeleteAlertOpen}>
+            <DropdownMenuItem
+              onSelect={(e) => {
+                e.preventDefault();
+                setDeleteAlertOpen(true);
+              }}
+              disabled={isDeleting}
+              className="cursor-pointer flex items-center gap-2 text-white hover:!text-white hover:bg-gray-400 focus:bg-gray-400 focus:!text-white"
+            >
+              <Trash2 className="h-4 w-4 text-purple-light" />
+              Excluir
+            </DropdownMenuItem>
+            <DialogContent className="bg-gray-600 border-gray-400 text-gray-100 max-w-sm">
+              <DialogHeader>
+                <DialogTitle className="text-xl">Tem certeza que deseja excluir?</DialogTitle>
+                <DialogDescription className="text-gray-200">
+                  Esta ação irá remover permanentemente o item <b>{item.name}</b> da sua lista de compras.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex gap-3 justify-end mt-6">
+                <Button
+                  variant="outline"
+                  onClick={() => setDeleteAlertOpen(false)}
+                  className="bg-gray-500 hover:bg-gray-400 border-none text-gray-100 px-3"
+                  disabled={isDeleting}
+                >
                   Cancelar
-                </AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => onDelete(item.id)}
+                </Button>
+                <Button
+                  onClick={handleDelete}
+                  disabled={isDeleting}
                   className="border border-gray-300 hover:bg-purple-light bg-purple text-white"
                 >
-                  Sim, Excluir
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+                  {isDeleting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "Sim, Excluir"
+                  )}
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </DropdownMenuContent>
       </DropdownMenu>
 
@@ -184,15 +202,15 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
             <Button
               variant="outline"
               onClick={() => setEditOpen(false)}
-              className="bg-gray-500 hover:bg-gray-400 border-gray-300 text-gray-100"
+              className="bg-gray-500 hover:bg-gray-400 border-gray-300 text-gray-100 px-3"
             >
               Cancelar
             </Button>
             <Button
               onClick={handleSaveEdit}
-              className="bg-purple-light hover:bg-purple-dark text-white"
+              className="bg-purple-light hover:bg-purple-dark text-white px-3"
             >
-              Salvar
+              {isEditing ? "Salvando..." : "Salvar"}
             </Button>
           </DialogFooter>
         </DialogContent>

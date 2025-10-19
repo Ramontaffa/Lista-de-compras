@@ -8,8 +8,8 @@ import { ShoppingItemProps } from "@/types/itemProps";
 interface ShoppingListProps {
   items: ShoppingItemProps[];
   onToggle: (id: number, completed: boolean) => void;
-  onEdit: (id: number, updatedItem: Omit<ShoppingItemProps, "id" | "checked">) => void;
-  onDelete: (id: number) => void;
+  onEdit: (id: number, updatedItem: Omit<ShoppingItemProps, "id" | "checked">) => Promise<void>;
+  onDelete: (id: number) => Promise<void>;
 }
 
 export function ShoppingList({ items, onToggle, onEdit, onDelete }: ShoppingListProps) {
