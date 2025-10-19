@@ -2,8 +2,8 @@
 export interface ShoppingItemProps {
   id: string;
   name: string;
-  quantity: string;
+  quantity: number;
   unit: string;
   category: string;
-  isCompleted: boolean;
+  checked?: boolean;
 }
