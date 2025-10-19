@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 
 interface QuantityInputProps {
-  quantityValue: string;
+  quantityValue: number;
   onQuantityChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   unitValue: string;
   onUnitChange: (value: string) => void;

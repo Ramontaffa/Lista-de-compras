@@ -11,7 +11,7 @@ import { QuantityInput } from "./quantityInput";
 interface ShoppingFormProps {
   onAddItem: (item: {
     name: string;
-    quantity: string;
+    quantity: number;
     unit: string;
     category: string;
   }) => void;
@@ -19,7 +19,7 @@ interface ShoppingFormProps {
 
 export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
   const [name, setName] = useState("");
-  const [quantity, setQuantity] = useState<string>("1"); 
+  const [quantity, setQuantity] = useState<number>(1);
   const [unit, setUnit] = useState<string>("UN");
   const [category, setCategory] = useState<string>("");
 
@@ -28,7 +28,7 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
     e.preventDefault();
 
     // Validate required fields
-    if (!name.trim() || !category || parseFloat(quantity) <= 0) {
+    if (!name.trim() || !category || quantity <= 0) {
       alert("Por favor, preencha o Item, a Categoria e garanta que a Quantidade seja maior que zero.");
       return;
     }
@@ -36,16 +36,17 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
     // Create new item object
     const newItem = {
       name: name.trim(),
-      quantity,
-      unit,
+      quantity: Number(quantity),
+      unit: unit.toLowerCase(),
       category,
     };
 
-    onAddItem(newItem); 
+    // Call the onAddItem prop with the new item
+    onAddItem(newItem);
 
     // Reset form fields
     setName("");
-    setQuantity("1");
+    setQuantity(1);
     setUnit("UN");
     setCategory("");
   };
@@ -72,7 +73,7 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
           <label className="text-gray-200 text-sm mb-1">Quantidade</label>
           <QuantityInput
             quantityValue={quantity}
-            onQuantityChange={(e) => setQuantity(e.target.value)}
+            onQuantityChange={(e) => setQuantity(Number(e.target.value))}
             unitValue={unit}
             onUnitChange={setUnit}
           />
@@ -88,7 +89,7 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
           type="submit"
           size="icon" 
           className="h-10 w-10 bg-purple hover:bg-purple-dark shrink-0" 
-          disabled={!name.trim() || !category || parseFloat(quantity) <= 0}
+          disabled={!name.trim() || !category || quantity <= 0}
         >
           <Plus className="h-5 w-5" />
         </Button>
