@@ -51,7 +51,7 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
     <form onSubmit={handleSubmit} className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
       {/* Item name input */}
       <div className="flex flex-col flex-grow min-w-[120px]">
-        <label htmlFor="item-name" className="text-gray-200 text-sm mb-1">
+        <label htmlFor="item-name">
           Item
         </label>
         <Input
@@ -66,7 +66,7 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
       <div className="flex gap-4 items-baseline-last min-w-[120px] overflow-x-auto">
         {/* Quantity and unit input */}
         <div className="flex flex-col">
-          <label className="text-gray-200 text-sm mb-1">Quantidade</label>
+          <label>Quantidade</label>
           <QuantityInput
             quantityValue={quantity}
             onQuantityChange={(e) => setQuantity(Number(e.target.value))}
