@@ -3,35 +3,6 @@ import { ShoppingItemProps } from "@/types/itemProps";
 import { useEffect, useState, useCallback } from "react";
 import { getItems, addItem, updateItem, deleteItem } from "@/services/items";
 
-// Removed duplicate interface declaration
-
-const initialItems: ShoppingItemProps[] = [
-  {
-    id: "1",
-    name: "Maçã",
-    quantity: 2,
-    unit: "UN",
-    category: "Fruta",
-    checked: false,
-  },
-  {
-    id: "2",
-    name: "Pão francês",
-    quantity: 4,
-    unit: "UN",
-    category: "Padaria",
-    checked: false,
-  },
-  {
-    id: "3",
-    name: "Brócolis",
-    quantity: 1,
-    unit: "UN",
-    category: "Legume",
-    checked: false,
-  },
-];
-
 interface ShoppingStore {
   items: ShoppingItemProps[];
   _hasHydrated: boolean;
