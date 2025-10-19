@@ -16,7 +16,7 @@ interface ShoppingFormProps {
 export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState<number>(1);
-  const [unit, setUnit] = useState<string>("UN");
+  const [unit, setUnit] = useState<string>("");
   const [category, setCategory] = useState<string>("");
 
   // Handles form submission Validates inputs and calls onAddItem callback
@@ -43,12 +43,12 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
     // Reset form fields
     setName("");
     setQuantity(1);
-    setUnit("UN");
+    setUnit("");
     setCategory("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-wrap justify-center items-end gap-3 sm:gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-wrap justify-center items-center gap-3 sm:gap-4">
       {/* Item name input */}
       <div className="flex flex-col flex-grow min-w-[120px]">
         <label htmlFor="item-name" className="text-gray-200 text-sm mb-1">
@@ -56,10 +56,10 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
         </label>
         <Input
           id="item-name"
-          placeholder=""
+          placeholder="Escreva o nome do item"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="bg-gray-500 border-gray-400 h-10"
+          className="h-9"
         />
       </div>
 
