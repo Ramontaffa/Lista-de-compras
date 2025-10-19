@@ -27,22 +27,18 @@ export function QuantityInput({
 
   return (
     // Main container with rounded border and palette colors
-    <div className="flex rounded-md overflow-hidden bg-gray-500 border border-gray-400">
+    <div className="flex overflow-hidden rounded-md bg-gray-500">
       {/* Numeric input for quantity */}
       <Input
         type="number"
         value={quantityValue}
         onChange={onQuantityChange}
-        className="bg-transparent border-none w-14 text-center p-0 focus-visible:ring-0"
+        className="bg-transparent rounded-l-md rounded-r-none w-14 text-center p-0"
         min="1"
       />
-
-      {/* Visual divider between quantity and unit */}
-      <div className="w-px bg-gray-400 my-1"></div>
-
       {/* Select for choosing unit of measurement */}
       <Select onValueChange={onUnitChange} value={unitValue}>
-        <SelectTrigger className="w-[70px] ml-auto bg-gray-400 border-none text-gray-200 focus:ring-0 [&>span]:w-full">
+        <SelectTrigger className="border">
           <SelectValue placeholder="UN." />
         </SelectTrigger>
         <SelectContent className="bg-gray-500 border-gray-400 text-gray-200">

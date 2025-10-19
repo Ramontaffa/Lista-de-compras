@@ -42,7 +42,7 @@ export function SelectCategory({ value, onValueChange }: SelectCategoryProps) {
       >
         {/* Select trigger with custom styling */}
         <SelectTrigger 
-          className="w-full rounded-md bg-gray-500 border-gray-400 h-10 text-gray-200 data-[state=open]:border-purple data-[state=open]:ring-1 data-[state=open]:ring-purple"
+          className="w-full rounded-md bg-gray-500 text-gray-200 data-[state=open]:border-purple data-[state=open]:ring-1 data-[state=open]:ring-purple"
         >
           {/* Show selected category or placeholder */}
           {currentCategoryData ? (
