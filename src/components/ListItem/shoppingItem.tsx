@@ -1,7 +1,7 @@
 import { ShoppingItemProps } from "@/types/itemProps";
 import { Checkbox } from "../ui/checkbox";
 import Tag from "./tag";
-import { ItemActions } from "./deleteItem";
+import { ItemActions } from "./itemActions";
 
 // Defines the properties for the ShoppingItem component with onFunctions to toggle completion, edit, and delete the item
 interface ShoppingItemComponentProps {

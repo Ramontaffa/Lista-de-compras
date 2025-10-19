@@ -58,15 +58,15 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
 
   // Handle save edit
   const handleSaveEdit = () => {
-    if (!name.trim() || !category || parseFloat(quantity) <= 0) {
+    if (!name.trim() || !category || quantity <= 0) {
       alert("Por favor, preencha todos os campos corretamente.");
       return;
     }
 
     onEdit(item.id, {
       name: name.trim(),
-      quantity,
-      unit,
+      quantity: Number(quantity),
+      unit: unit.toLowerCase(),
       category,
     });
 
@@ -162,7 +162,7 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
               <label className="text-gray-200 text-sm mb-1">Quantidade</label>
               <QuantityInput
                 quantityValue={quantity}
-                onQuantityChange={(e) => setQuantity(e.target.value)}
+                onQuantityChange={(e) => setQuantity(Number(e.target.value))}
                 unitValue={unit}
                 onUnitChange={setUnit}
               />
