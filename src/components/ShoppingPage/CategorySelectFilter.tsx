@@ -1,15 +1,12 @@
 import * as React from "react";
 import { categories } from "@/lib/category";
-import { Loader2 } from "lucide-react";
 
 interface CategorySelectFilterProps {
-  id: string;
   value: string;
   onChange: (value: string) => void;
 }
 
 export const CategorySelectFilter: React.FC<CategorySelectFilterProps> = ({
-  id,
   value,
   onChange,
 }) => {
@@ -42,9 +39,8 @@ export const CategorySelectFilter: React.FC<CategorySelectFilterProps> = ({
       >
         <span className="flex items-center gap-2 text-gray-200">
           {selected ? <selected.icon className="w-4 h-4" /> : null}
-          {selected ? selected.label : "Filtrar categoria"}
+          {selected ? selected.label : "Selecione categoria"}
         </span>
-        <Loader2 className="w-4 h-4 ml-2 animate-spin text-purple" />
       </button>
       {open && (
         <div className="absolute z-20 mt-2 w-full bg-gray-600 border border-gray-400 rounded-md shadow-lg p-2">

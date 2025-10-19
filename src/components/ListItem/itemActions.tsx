@@ -174,7 +174,7 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-gray-500 border-gray-400"
+                className="p-2"
               />
             </div>
 

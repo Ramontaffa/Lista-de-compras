@@ -54,8 +54,8 @@ export default function ShoppingClientPage() {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="categoryFilter" >Filtrar categoria</label>
-            <CategorySelectFilter id="categoryFilter" value={categoryFilter} onChange={setCategoryFilter} />
+            <label>Filtrar categoria</label>
+            <CategorySelectFilter value={categoryFilter} onChange={setCategoryFilter} />
           </div>
         </div>
 
