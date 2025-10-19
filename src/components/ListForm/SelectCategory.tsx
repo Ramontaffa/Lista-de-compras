@@ -34,7 +34,7 @@ export function SelectCategory({ value, onValueChange }: SelectCategoryProps) {
   return (
     <div className="flex flex-col">
       {/* Label for the select */}
-      <label className="text-gray-200 text-sm mb-1">Categoria</label> 
+      <label >Categoria</label> 
       
       <Select 
         value={value}

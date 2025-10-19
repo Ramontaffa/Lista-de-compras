@@ -180,4 +180,11 @@
     line-height: 130%;
     cursor: pointer;
   }
+
+  label {
+    color: var(--color-gray-200);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+
+  }
 }

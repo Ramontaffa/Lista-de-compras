@@ -14,6 +14,7 @@ interface QuantityInputProps {
   onQuantityChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   unitValue: string;
   onUnitChange: (value: string) => void;
+  isFilter?: boolean;
 }
 
 export function QuantityInput({
@@ -21,6 +22,7 @@ export function QuantityInput({
   onQuantityChange,
   unitValue,
   onUnitChange,
+  isFilter,
 }: QuantityInputProps) {
   // Available unit of measurement options
   const UNIT_OPTIONS = ["UN", "KG", "L", "PCT"];
@@ -33,22 +35,24 @@ export function QuantityInput({
         type="number"
         value={quantityValue}
         onChange={onQuantityChange}
-        className="bg-transparent rounded-l-md rounded-r-none w-14 text-center p-0"
+        className={`bg-transparent rounded-l-md rounded-r-none text-center p-0 ${isFilter ? "w-16 min-w-[5rem]" : "w-14"}`}
         min="1"
       />
       {/* Select for choosing unit of measurement */}
-      <Select onValueChange={onUnitChange} value={unitValue}>
-        <SelectTrigger className="border">
-          <SelectValue placeholder="UN." />
-        </SelectTrigger>
-        <SelectContent className="bg-gray-500 border-gray-400 text-gray-200">
-          {UNIT_OPTIONS.map((opt) => (
-            <SelectItem key={opt} value={opt} className="focus:bg-purple-dark">
-              {opt}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="flex-1 min-w-0">
+        <Select onValueChange={onUnitChange} value={unitValue}>
+          <SelectTrigger className="border w-full">
+            <SelectValue placeholder="UN." />
+          </SelectTrigger>
+          <SelectContent className="bg-gray-500 border-gray-400 text-gray-200">
+            {UNIT_OPTIONS.map((opt) => (
+              <SelectItem key={opt} value={opt} className="focus:bg-purple-dark">
+                {opt}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
 }

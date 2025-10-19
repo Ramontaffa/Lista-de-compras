@@ -36,7 +36,10 @@ import { ShoppingItemProps } from "@/types/itemProps";
 // Props for the ItemActions component
 interface ItemActionsProps {
   item: ShoppingItemProps;
-  onEdit: (id: number, updatedItem: Omit<ShoppingItemProps, "id" | "checked">) => void;
+  onEdit: (
+    id: number,
+    updatedItem: Omit<ShoppingItemProps, "id" | "checked">
+  ) => void;
   onDelete: (id: number) => void;
 }
 
@@ -44,14 +47,14 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
   const [editOpen, setEditOpen] = useState(false);
   const [name, setName] = useState(item.name);
   const [quantity, setQuantity] = useState(item.quantity);
-  const [unit, setUnit] = useState(item.unit);
+  const [unit, setUnit] = useState(item.unit.toUpperCase());
   const [category, setCategory] = useState(item.category);
 
   // Reset form when edit dialog opens
   const handleEditOpen = () => {
     setName(item.name);
     setQuantity(item.quantity);
-    setUnit(item.unit);
+    setUnit(item.unit.toUpperCase());
     setCategory(item.category);
     setEditOpen(true);
   };
@@ -112,10 +115,10 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
                 <AlertDialogTitle className="text-xl">
                   Tem certeza que deseja excluir?
                 </AlertDialogTitle>
-                
+
                 <AlertDialogDescription>
-                  Esta ação irá remover permanentemente o item *{item.name}* da sua
-                  lista de compras.
+                  Esta ação irá remover permanentemente o item *{item.name}* da
+                  sua lista de compras.
                 </AlertDialogDescription>
               </AlertDialogHeader>
 
@@ -140,16 +143,16 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
         <DialogContent className="bg-gray-600 border-gray-400 text-gray-100">
           <DialogHeader>
             <DialogTitle className="text-xl">Editar Item</DialogTitle>
-            <DialogDescription className="text-gray-300">
+            <DialogDescription className="text-gray-200">
               Faça as alterações necessárias no item da sua lista.
             </DialogDescription>
           </DialogHeader>
-          
+
           {/* Edit form fields */}
           <div className="space-y-4 py-4">
             {/* Item name */}
             <div className="flex flex-col">
-              <label className="text-gray-200 text-sm mb-1">Item</label>
+              <label>Item</label>
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -157,19 +160,24 @@ export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {
               />
             </div>
 
-            {/* Quantity and unit */}
-            <div className="flex flex-col">
-              <label className="text-gray-200 text-sm mb-1">Quantidade</label>
-              <QuantityInput
-                quantityValue={quantity}
-                onQuantityChange={(e) => setQuantity(Number(e.target.value))}
-                unitValue={unit}
-                onUnitChange={setUnit}
-              />
-            </div>
+            <div className="flex gap-4 w-full">
+              {/* Quantity and unit */}
+              <div className="flex flex-col w-2/5">
+                <label>Quantidade</label>
+                <QuantityInput
+                  quantityValue={quantity}
+                  onQuantityChange={(e) => setQuantity(Number(e.target.value))}
+                  unitValue={unit}
+                  onUnitChange={setUnit}
+                  isFilter={true}
+                />
+              </div>
 
-            {/* Category */}
-            <SelectCategory value={category} onValueChange={setCategory} />
+              {/* Category */}
+              <div className="flex flex-col w-3/5">
+                <SelectCategory value={category} onValueChange={setCategory} />
+              </div>
+            </div>
           </div>
 
           <DialogFooter>
