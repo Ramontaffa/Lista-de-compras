@@ -7,14 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SelectCategory } from "./SelectCategory";
 import { QuantityInput } from "./quantityInput";
+import { ShoppingItemProps } from "@/types/itemProps";
 
 interface ShoppingFormProps {
-  onAddItem: (item: {
-    name: string;
-    quantity: number;
-    unit: string;
-    category: string;
-  }) => void;
+  onAddItem: (item: Omit<ShoppingItemProps, "id" | "checked">) => void;
 }
 
 export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
