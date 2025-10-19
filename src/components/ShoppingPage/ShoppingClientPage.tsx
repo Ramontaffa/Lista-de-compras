@@ -7,12 +7,7 @@ import { useShoppingStore } from "@/store/useShoppingStore";
 
 export default function ShoppingClientPage() {
   // Get store state and actions
-  const items = useShoppingStore((state) => state.items);
-  const addItem = useShoppingStore((state) => state.addItem);
-  const editItem = useShoppingStore((state) => state.editItem);
-  const toggleItem = useShoppingStore((state) => state.toggleItem);
-  const deleteItem = useShoppingStore((state) => state.deleteItem);
-  const hasHydrated = useShoppingStore((state) => state._hasHydrated);
+  const { items, handleAddItem, handleEditItem, handleToggleItem, handleDeleteItem, _hasHydrated } = useShoppingStore();
 
   return (
     <div className="relative z-10 pt-20 sm:pt-24 md:pt-26 lg:pt-30 p-8 sm:p-12 md:p-16 lg:p-20">
@@ -20,19 +15,20 @@ export default function ShoppingClientPage() {
         <h1 className="text-4xl font-bold text-gray-100 mb-8 mt-[-3rem]">
           Lista de Compras
         </h1>
-        <ShoppingForm onAddItem={addItem} />
+        <ShoppingForm onAddItem={handleAddItem} />
         <div className="my-8 h-px bg-gray-500" /> {/* Divider */}
-        {/* Show loading while hydrating from localStorage */}
-        {!hasHydrated ? (
+
+        {/* Show loading while hydrating from API */}
+        {!_hasHydrated ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-gray-300 text-lg">Carregando lista...</div>
           </div>
         ) : (
           <ShoppingList
             items={items}
-            onToggle={toggleItem}
-            onEdit={editItem}
-            onDelete={deleteItem}
+            onToggle={handleToggleItem}
+            onEdit={handleEditItem}
+            onDelete={handleDeleteItem}
           />
         )}
       </div>
