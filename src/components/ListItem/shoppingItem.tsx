@@ -2,6 +2,7 @@ import { ShoppingItemProps } from "@/types/itemProps";
 import { Checkbox } from "../ui/checkbox";
 import Tag from "./tag";
 import { ItemActions } from "./itemActions";
+import unitType from "@/utils/unit/unitType";
 
 // Defines the properties for the ShoppingItem component with onFunctions to toggle completion, edit, and delete the item
 interface ShoppingItemComponentProps {
@@ -31,7 +32,7 @@ export default function ShoppingItem({ item, onToggle, onEdit, onDelete }: Shopp
             {item.name}
           </span>
           <span className="text-sm text-gray-200">
-            {`${item.quantity} ${item.quantity === 1 ? 'Unidade' : 'Unidades'}`}
+            {`${unitType(item.unit, item.quantity)}`}
           </span>
         </div>
 
