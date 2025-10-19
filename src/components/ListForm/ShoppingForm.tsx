@@ -24,8 +24,8 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
     e.preventDefault();
 
     // Validate required fields
-    if (!name.trim() || !category || quantity <= 0) {
-      alert("Por favor, preencha o Item, a Categoria e garanta que a Quantidade seja maior que zero.");
+    if (!name.trim() || !unit || !category || quantity <= 0) {
+      alert("Por favor, preencha o Item, a Categoria e garanta que a Quantidade e a Unidade sejam preenchidas corretamente.");
       return;
     }
     
@@ -85,7 +85,7 @@ export function ShoppingForm({ onAddItem }: ShoppingFormProps) {
           type="submit"
           size="icon" 
           className="h-10 w-10 bg-purple hover:bg-purple-dark shrink-0" 
-          disabled={!name.trim() || !category || quantity <= 0}
+          disabled={!name.trim() || !unit || !category || quantity <= 0}
         >
           <Plus className="h-5 w-5" />
         </Button>
