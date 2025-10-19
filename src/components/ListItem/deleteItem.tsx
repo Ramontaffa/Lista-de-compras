@@ -36,8 +36,8 @@ import { ShoppingItemProps } from "@/types/itemProps";
 // Props for the ItemActions component
 interface ItemActionsProps {
   item: ShoppingItemProps;
-  onEdit: (id: string, updatedItem: Omit<ShoppingItemProps, "id" | "isCompleted">) => void;
-  onDelete: (id: string) => void;
+  onEdit: (id: number, updatedItem: Omit<ShoppingItemProps, "id" | "checked">) => void;
+  onDelete: (id: number) => void;
 }
 
 export function ItemActions({ item, onEdit, onDelete }: ItemActionsProps) {

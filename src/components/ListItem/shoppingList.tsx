@@ -7,17 +7,17 @@ import { ShoppingItemProps } from "@/types/itemProps";
 
 interface ShoppingListProps {
   items: ShoppingItemProps[];
-  onToggle: (id: string, completed: boolean) => void;
-  onEdit: (id: string, updatedItem: Omit<ShoppingItemProps, "id" | "isCompleted">) => void;
-  onDelete: (id: string) => void;
+  onToggle: (id: number, completed: boolean) => void;
+  onEdit: (id: number, updatedItem: Omit<ShoppingItemProps, "id" | "checked">) => void;
+  onDelete: (id: number) => void;
 }
 
 export function ShoppingList({ items, onToggle, onEdit, onDelete }: ShoppingListProps) {
   // optimize filtering with useMemo
   const { activeItems, completedItems } = useMemo(
     () => ({
-      activeItems: items.filter((item) => !item.isCompleted),
-      completedItems: items.filter((item) => item.isCompleted),
+      activeItems: items.filter((item) => !item.checked),
+      completedItems: items.filter((item) => item.checked),
     }),
     [items]
   );

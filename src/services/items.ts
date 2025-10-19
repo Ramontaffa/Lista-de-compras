@@ -11,12 +11,12 @@ export const addItem = async (item: Omit<ShoppingItemProps, "id">) => {
   return response.data;
 };
 
-export const deleteItem = async (id: string) => {
+export const deleteItem = async (id: number) => {
   const response = await api.delete(`items/${id}`);
   return response.data;
 };
 
-export const updateItem = async (id: string, item: Partial<ShoppingItemProps>) => {
+export const updateItem = async (id: number, item: Partial<ShoppingItemProps>) => {
   const response = await api.put(`items/${id}`, item);
   return response.data;
 };

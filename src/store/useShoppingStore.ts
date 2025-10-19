@@ -37,9 +37,9 @@ interface ShoppingStore {
   _hasHydrated: boolean;
   setHasHydrated: (state: boolean) => void;
   handleAddItem: (item: Omit<ShoppingItemProps, "id" | "checked">) => Promise<void>;
-  handleEditItem: (id: string, item: Omit<ShoppingItemProps, "id" | "checked">) => Promise<void>;
-  handleToggleItem: (id: string, completed: boolean) => Promise<void>;
-  handleDeleteItem: (id: string) => Promise<void>;
+  handleEditItem: (id: number, item: Omit<ShoppingItemProps, "id" | "checked">) => Promise<void>;
+  handleToggleItem: (id: number, completed: boolean) => Promise<void>;
+  handleDeleteItem: (id: number) => Promise<void>;
 }
 
 export function useShoppingStore(): ShoppingStore {
@@ -63,7 +63,7 @@ export function useShoppingStore(): ShoppingStore {
     }
   }, []);
 
-  const handleEditItem = useCallback(async (id: string, itemData: Omit<ShoppingItemProps, "id" | "checked">) => {
+  const handleEditItem = useCallback(async (id: number, itemData: Omit<ShoppingItemProps, "id" | "checked">) => {
     try {
       const updatedItem = await updateItem(id, itemData);
       setItems((prev) =>
@@ -74,7 +74,7 @@ export function useShoppingStore(): ShoppingStore {
     }
   }, []);
 
-  const handleToggleItem = useCallback(async (id: string, completed: boolean) => {
+  const handleToggleItem = useCallback(async (id: number, completed: boolean) => {
     try {
       const updatedItem = await updateItem(id, { checked: completed });
       setItems((prev) =>
@@ -85,7 +85,7 @@ export function useShoppingStore(): ShoppingStore {
     }
   }, []);
 
-  const handleDeleteItem = useCallback(async (id: string) => {
+  const handleDeleteItem = useCallback(async (id: number) => {
     try {
       await deleteItem(id);
       setItems((prev) => prev.filter((item) => item.id !== id));
