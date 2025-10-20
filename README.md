@@ -7,6 +7,32 @@ A modern and intuitive shopping list application built with Next.js, TypeScript,
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-38bdf8)
 
+
+## 🚦 Integrated Backend Branch
+
+> **Important:**
+>
+> There is a dedicated branch called `integrated-main` where this project is fully integrated with a backend API. The backend repository is available at:
+>
+> [`backend-lista-de-compras`](https://github.com/Ramontaffa/backend-lista-de-compras.git)
+>
+> In this branch:
+> - **Zustand is replaced by backend API calls** for all shopping list operations (add, edit, delete, fetch, etc.)
+> - **New features and code refinements** are available, including improved data synchronization, error handling, and advanced functionalities.
+> - **Recommended for production and collaborative use**.
+>
+> To use the backend integration, switch to the `integrated-main` branch:
+>
+> ```bash
+> git checkout integrated-main
+> ```
+>
+> Make sure to follow the backend setup instructions in the [backend repo](https://github.com/Ramontaffa/backend-lista-de-compras.git) for API configuration and environment variables.
+
+> **Deploy:**
+> [https://lista-de-compras-integrada.vercel.app/](https://lista-de-compras-integrada.vercel.app/)
+
+---
 ## ✨ Features
 
 - ✅ **Add Items** - Create shopping items with name, quantity, unit, and category
